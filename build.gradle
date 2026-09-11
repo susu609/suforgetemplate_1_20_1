@@ -30,11 +30,9 @@ java {
 
 minecraft {
     mappings channel: mapping_channel, version: mapping_version
-
-    // Keep generated resources in sync when launching from IntelliJ IDEA.
     copyIdeResources = true
 
-    // Template keeps two isolated clients ready for LAN/co-op testing.
+    // Two isolated clients are kept ready for LAN/co-op testing.
     runs {
         configureEach {
             property 'forge.logging.markers', 'REGISTRIES'
@@ -66,6 +64,7 @@ mixin {
 }
 
 repositories {
+    mavenLocal()
     mavenCentral()
     maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
 }
@@ -73,7 +72,9 @@ repositories {
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
-    // Mixin support is available to every project created from this template.
+    // Shared utilities published by SuModLib to Maven Local during development.
+    implementation fg.deobf("net.susu609.modlib:sumodlib:${sumodlib_version}")
+
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
 
@@ -84,15 +85,13 @@ tasks.named('processResources', ProcessResources).configure {
             forge_version          : forge_version,
             forge_version_range    : forge_version_range,
             loader_version_range   : loader_version_range,
-
             mod_id                 : mod_id,
             mod_name               : mod_name,
             mod_license            : mod_license,
             mod_version            : mod_version,
             mod_authors            : mod_authors,
-            mod_description : mod_description,
-
-            sumodlib_version: sumodlib_version
+            mod_description        : mod_description,
+            sumodlib_version_range : sumodlib_version_range
     ]
 
     inputs.properties replaceProperties
@@ -120,15 +119,4 @@ tasks.named('jar', Jar).configure {
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
-}
-publishing {
-    publications {
-        register('mavenJava', MavenPublication) {
-            artifact jar
-        }
-    }
-
-    repositories {
-        mavenLocal()
-    }
 }

@@ -13,8 +13,8 @@ import org.slf4j.Logger;
     public static final Logger LOGGER = LogUtils.getLogger();
 
     public ExampleMod(FMLJavaModLoadingContext context) {
-        // Forge 47.3.10+ supports constructor injection. Avoid deprecated
-        // static get() calls.
+        // Forge 47.3.10+ supports constructor injection; avoid deprecated
+        // static get().
         context.registerConfig(ModConfig.Type.COMMON, WConfig.SPEC);
         LOGGER.info("{} loaded", MOD_ID);
     }
