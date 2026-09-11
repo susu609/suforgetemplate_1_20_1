@@ -64,6 +64,7 @@ mixin {
 }
 
 repositories {
+    // SuModLib is published here by :publishToMavenLocal.
     mavenLocal()
     mavenCentral()
     maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
@@ -72,8 +73,10 @@ repositories {
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
-    // Shared utilities published by SuModLib to Maven Local during development.
-    implementation fg.deobf("net.susu609.modlib:sumodlib:${sumodlib_version}")
+    // Shared utilities from SuModLib.
+    implementation fg.deobf(
+            "net.susu609.modlib:sumodlib:${sumodlib_version}"
+    )
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
